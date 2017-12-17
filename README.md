@@ -1,8 +1,8 @@
 # check.js
-Small JavaScript testing library for ES3
+Small JavaScript testing library for ES3 runtimes
 
 ```javascript
-// create new test suite
+// create new test suite instance
 
 var tests = check.suite('Test suite #1');
 
@@ -24,7 +24,7 @@ tests.run(function(completed, total, successes){
 });
 ```
 
-## Documentation
+## Reference documentation
 
 ### `check.suite(suiteName [, onProgress])`
 
@@ -56,11 +56,26 @@ check.eq(function(){a+b},
          function(){a+b}) // true, compares functions as strings
 ```
 
-### Test suite instance
+### Test suite instance functionality
 
 #### `TestSuiteInstance(testDescription, testFunction)`
 
 Shorthand for `check.add(suiteName, testDescription, testFunction)`.
+
+```javascript
+// this code
+
+check.add('Test suite #1', 'Test 1: add 3 to 4', function(done, eq){
+  done(eq(3 + 4, 7));
+});
+
+// is equivalent to this code
+
+var tests = check.suite('Test suite #1');
+tests('Test 1: add 3 to 4', function(done, eq){
+  done(eq(3 + 4, 7));
+});
+```
 
 #### `TestSuiteInstance.run(onProgress)`
 
