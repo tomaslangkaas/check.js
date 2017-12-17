@@ -68,9 +68,8 @@
                   return function(
                     result) {
                     if (
-                      result ||
-                      result ===
-                      void 0
+                      result === true ||
+                      result === void 0
                     ) {
                       passed++;
                     } else {
