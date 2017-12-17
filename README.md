@@ -83,7 +83,7 @@ Shorthand for `check.run(suiteName, onProgress)`.
 
 ### The `done()` function
 
-Each test function is provided with a callback function, `done()`, to resolve the test. If `done()` is called without any argument or with an argument of `true` or `undefined`, the test is considered a success. If called with a falsy value, the test is considered failed. If called with a string or another truthy value, the test is considered a fail, with the provided argument converted to a string to be used as a failure message in the failure array. 
+Each test function is provided with a callback function, `done()`, to resolve the test. If `done()` is called without any argument or with an argument of `true` or `undefined`, the test is considered a success. If called with a falsy value, the test is considered failed. If called with a string or a truthy value other than `true`, the test is considered a fail, with the provided argument converted to a string to be used as a failure message in the failure array. 
 
 ### The `onProgress()` function
 
