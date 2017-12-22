@@ -1,5 +1,5 @@
 # check.js
-Small JavaScript testing library (~1kb minified) for ES3 runtimes
+Small JavaScript testing library (~1.5kb minified), ES3 compliant
 
 ```javascript
 // create new test suite instance
