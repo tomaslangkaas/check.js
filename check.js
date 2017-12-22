@@ -4,10 +4,7 @@
     checkObj = {
       version: "0.2",
       suite: function(suiteName, onProgress) {
-        suites[suiteName] = {
-          tests: []
-        };
-
+        suites[suiteName] = { tests: [] };
         function suite(name, fun) {
           checkObj.add(suiteName, name, fun);
           return suite;
@@ -27,7 +24,7 @@
         suites[suite].tests.push([desc, fun]);
       },
       run: function(suite, onProgress) {
-        suite = '' + suite;
+        suite = "" + suite;
         if (suites[suite]) {
           var i,
             tests = suites[suite].tests,
@@ -39,38 +36,67 @@
             pendingReport,
             report;
           if (typeof onProgress !== "function") {
-            report = document.getElementById("" + onProgress) ||
-              console || {};
-            onProgress = function(completed, total, successes,
-              failureReport, pending) {
+            report = document.getElementById("" + onProgress) || console || {};
+            onProgress = function(
+              completed,
+              total,
+              successes,
+              failureReport,
+              pending
+            ) {
               var pendingLength = pending.length,
-                str = suite + "\n" + Array(suite.length + 1).join(
-                  '=') + '\n' + "Completed: " + completed +
-                " of " + total + "\nSuccesses: " + successes +
-                " of " + completed + (pendingLength ?
-                  "\nPending tests (" + pendingLength + "):\n" +
-                  (pendingLength > 3 ? pending.slice(0, 3).concat(
-                    '...') : pending).join("\n") : "") + (
-                  failureReport ? "\nFailing tests:\n" +
-                  failureReport.join("\n") : "");
+                str =
+                  suite +
+                  "\n" +
+                  Array(suite.length + 1).join("=") +
+                  "\n" +
+                  "Completed: " +
+                  completed +
+                  " of " +
+                  total +
+                  "\nSuccesses: " +
+                  successes +
+                  " of " +
+                  completed +
+                  (pendingLength
+                    ? "\nPending tests (" +
+                      pendingLength +
+                      "):\n" +
+                      (pendingLength > 3
+                        ? pending.slice(0, 3).concat("...")
+                        : pending
+                      ).join("\n")
+                    : "") +
+                  (failureReport
+                    ? "\nFailing tests:\n" + failureReport.join("\n")
+                    : "");
               if (report.log) {
                 report.log(str);
               } else {
-                report.innerHTML = str;
+                report.innerHTML = str.replace(/[<>"'&]/g, function(m) {
+                  return "&#" + m.charCodeAt(0) + ";";
+                });;
               }
             };
           }
-
           function update(index) {
             if (pending[index]) {
               completed++;
               pending[index] = "";
             }
-            pendingReport = pending.join("\x1f").replace(/\x1f+/g,
-              "\x1f").replace(/^\x1f/, "").replace(/\x1f$/, "");
-            onProgress(completed, total, passed, failures,
+            pendingReport = pending
+              .join("\x1f")
+              .replace(/\x1f+/g, "\x1f")
+              .replace(/^\x1f/, "")
+              .replace(/\x1f$/, "");
+            onProgress(
+              completed,
+              total,
+              passed,
+              failures,
               pendingReport ? pendingReport.split("\x1f") : [],
-              tests);
+              tests
+            );
           }
           for (i = 0; i < total; i++) {
             pending[i] = "[" + i + "] " + tests[i][0];
@@ -84,17 +110,22 @@
                     if (result === true || result === void 0) {
                       passed++;
                     } else {
-                      failures.push("[" + index + "] " +
-                        tests[index]
-                        [0] + ": " + (result || "Failed")
+                      failures.push(
+                        "[" +
+                          index +
+                          "] " +
+                          tests[index][0] +
+                          ": " +
+                          (result || "Failed")
                       );
                     }
                     update(index);
                   };
-                })(i), checkObj.eq);
+                })(i),
+                checkObj.eq
+              );
             } catch (err) {
-              failures.push("[" + i + "] " + tests[i][0] + ": " +
-                err.message);
+              failures.push("[" + i + "] " + tests[i][0] + ": " + err.message);
               update(i);
             }
           }
@@ -118,8 +149,11 @@
         priorB.push(b);
         for (i in a) {
           // check if a and b has same properties with same values, recursively
-          if (a.hasOwnProperty(i) && (!b.hasOwnProperty(i) || !
-              checkObj.eq(a[i], b[i], priorA, priorB))) return false;
+          if (
+            a.hasOwnProperty(i) &&
+            (!b.hasOwnProperty(i) || !checkObj.eq(a[i], b[i], priorA, priorB))
+          )
+            return false;
         }
         for (i in b) {
           // check if b has additional properties
